@@ -78,7 +78,7 @@ export default class AddNode extends Component {
             "childNode": null
           }]
         }
-        this.props.addNodeInfo(data)
+        this.props.addNodeInfo(data, index)
       }
     }
   }

@@ -41,6 +41,7 @@ export default class NodeWrap extends Component {
         nodeConfig.conditionNodes[i].error = $func.conditionStr(nodeConfig, i) == "请设置条件" && i != nodeConfig.conditionNodes.length - 1
       }
       // this.$emit("update:nodeConfig", this.nodeConfig)
+      this.props.updataNode(nodeConfig)
       this.forceUpdate()
       if (nodeConfig.conditionNodes.length == 1) {
         if (nodeConfig.childNode) {
@@ -51,9 +52,10 @@ export default class NodeWrap extends Component {
           }
         }
         // this.$emit("update:nodeConfig", this.nodeConfig.conditionNodes[0].childNode)
-        this.setState({
-          nodeConfig: nodeConfig.childNode
-        })
+        this.props.updataNode(nodeConfig.conditionNodes[0].childNode)
+        // this.setState({
+        //   nodeConfig: nodeConfig.childNode
+        // })
       }
     }
   }
@@ -67,18 +69,35 @@ export default class NodeWrap extends Component {
   arrTransfer = () => {
 
   }
-  delNode = () => {
+  delNode = (index) => {
+    console.log(index)
     const { nodeConfig } = this.state
+    // this.setState({
+    //   nodeConfig: nodeConfig.childNode
+    // })
+    console.log(this.props)
     console.log(nodeConfig)
-    this.setState({
-      nodeConfig: nodeConfig.childNode
-    })
-    console.log(this.state.nodeConfig)
+    this.props.updataNode(nodeConfig.childNode)
+  }
+  updataNode = (index) => {
+    return (e) => {
+      const { nodeConfig } = this.state
+      console.log(index)
+      console.log(e)
+      console.log(nodeConfig)
+      if (index === undefined) {
+        nodeConfig.childNode = e
+      } else {
+        nodeConfig.conditionNodes[index].childNode = e
+      }
+      this.setState({
+        nodeConfig
+      })
+    }
   }
   addTerm = () => {
     const { nodeConfig, $func } = this.state
     let len = nodeConfig.conditionNodes.len + 1
-    console.log(nodeConfig)
     nodeConfig.conditionNodes.push({
       "nodeName": "条件" + len,
       "type": 3,
@@ -90,11 +109,12 @@ export default class NodeWrap extends Component {
     for (let i = 0; i < nodeConfig.conditionNodes.length; i++) {
       nodeConfig.conditionNodes[i].err = $func.conditionStr(nodeConfig, i) == '请设置条件' && i != nodeConfig.conditionNodes.length - 1
     }
-    const id = 123
-    nodeConfig.id = id
-    console.log(nodeConfig)
-    this.forceUpdate()
-    // this.props.addTremInfo(nodeConfig, id)
+    this.props.addTremInfo(nodeConfig)
+  }
+  addTremInfo = (nodeConfig) => {
+    this.setState({
+      nodeConfig
+    })
   }
   // 给子组件传的事件
   addNodeInfo = (e, index) => {
@@ -113,12 +133,14 @@ export default class NodeWrap extends Component {
   }
   nodeClick = (nodeConfig) => {
     return () => {
+      console.log(this.props)
+      this.props.getNodeConfig(nodeConfig)
       console.log(nodeConfig)
     }
   }
   componentWillReceiveProps(nextProps) {
-    // console.log(this.props.nodeConfig)
-    // console.log(nextProps.nodeConfig)
+    console.log(this.props.nodeConfig)
+    console.log(nextProps.nodeConfig)
     if (nextProps.nodeConfig !== this.props.nodeConfig) {
       this.setState({
         nodeConfig: nextProps.nodeConfig
@@ -212,7 +234,7 @@ export default class NodeWrap extends Component {
                     </div>
                   </div>
                 </div>
-                <AddNode childNodeP={nodeConfig.childNode} addNodeInfo={this.addNodeInfo}></AddNode>
+                <AddNode childNodeP={nodeConfig.childNode} addNodeInfo={this.addNodeInfo} getNodeConfig={this.props.getNodeConfig} updataNode={this.updataNode()}></AddNode>
               </div> : ''
           }
           {
@@ -266,12 +288,12 @@ export default class NodeWrap extends Component {
                                     : ''
                                 }
                               </div>
-                              <AddNode nodeConfig={item} index={index} childNodeP={item.childNode} addNodeInfo={this.addNodeInfo}></AddNode>
+                              <AddNode nodeConfig={item} index={index} childNodeP={item.childNode} addNodeInfo={this.addNodeInfo} getNodeConfig={this.props.getNodeConfig} updataNode={this.updataNode()}></AddNode>
                             </div>
                           </div>
                           {
                             item.childNode ?
-                              <NodeWrap nodeConfig={item.childNode} addTremInfo={this.props.addTremInfo} delNode={this.delNode}></NodeWrap>
+                              <NodeWrap nodeConfig={item.childNode} addTremInfo={this.addTremInfo} delNode={this.delNode} getNodeConfig={this.props.getNodeConfig} updataNode={this.updataNode(index)}></NodeWrap>
                               : ''
                           }
                           {
@@ -296,91 +318,15 @@ export default class NodeWrap extends Component {
                           }
                         </div>
                       })
-
                     }
-
-
-
-                    {/* {
-                      nodeConfig.conditionNodes.map((item, index) => {
-                        return <div className="col-box" key={index}>
-                          <div className="condition-node">
-                            <div className="condition-node-box">
-                              <div className={`auto-judge ${isTried && item.error ? 'error active' : ''}`}>
-                                {
-                                  index != 0 ?
-                                    <div className="sort-left" onClick={this.arrTransfer(index, -1)}>&lt;</div>
-                                    : ''
-                                }
-                                <div className="title-wrapper">
-                                  {
-                                    isInputList[index] ?
-                                      <input type="text" className="ant-input editable-title-input"
-                                        onBlur={this.blurEvent(index)} onFocus={event => event.currentTarget.select()} value={item.nodeName} />
-                                      : ''
-                                  }
-                                  {
-                                    !isInputList[index] ?
-                                      <span className="editable-title" onClick={this.clickEvent(index)}>{item.nodeName}</span>
-                                      : ''
-                                  }
-
-                                  <span className="priority-title" onClick={this.setPerson(item.priorityLevel)}>优先级{item.priorityLevel}</span>
-                                  <i className="anticon anticon-close close" onClick={this.delTerm(index)}></i>
-                                </div>
-                                {
-                                  index != nodeConfig.conditionNodes.length - 1 ?
-                                    <div className="sort-right" onClick={this.arrTransfer(index)}>&gt;</div>
-                                    : ''
-                                }
-                                <div className="content" onClick={this.setPerson(item.priorityLevel)}>{$func.conditionStr(nodeConfig, index)}</div>
-                                {
-                                  isTried && item.error ?
-                                    <div className="error_tip">
-                                      <i className="anticon anticon-exclamation-circle" style={{ color: 'rgb(242, 86, 67)' }}></i>
-                                    </div>
-                                    : ''
-                                }
-                              </div>
-                              <AddNode childNodeP={item.childNode} addNodeInfo={this.addNodeInfo}></AddNode>
-                            </div>
-                          </div>
-                          {
-                            item.childNode ?
-                              <NodeWrap nodeConfig={item.childNode} addTremInfo={this.props.addTremInfo} delNode={this.delNode}></NodeWrap>
-                              : ''
-                          }
-                          {
-                            index == 0 ?
-                              <div className="top-left-cover-line"></div>
-                              : ''
-                          }
-                          {
-                            index == 0 ?
-                              <div className="bottom-left-cover-line"></div>
-                              : ''
-                          }
-                          {
-                            index == nodeConfig.conditionNodes.length - 1 ?
-                              <div className="top-right-cover-line"></div>
-                              : ''
-                          }
-                          {
-                            index == nodeConfig.conditionNodes.length - 1 ?
-                              <div className="bottom-right-cover-line"></div>
-                              : ''
-                          }
-                        </div>
-                      })
-                    } */}
                   </div>
-                  <AddNode childNodeP={nodeConfig.childNode} addNodeInfo={this.addNodeInfo}></AddNode>
+                  <AddNode childNodeP={nodeConfig.childNode} addNodeInfo={this.addNodeInfo} getNodeConfig={this.props.getNodeConfig} updataNode={this.updataNode()}></AddNode>
                 </div>
               </div> : ''
           }
           {
             nodeConfig.childNode ?
-              <NodeWrap nodeConfig={nodeConfig.childNode} addTremInfo={this.props.addTremInfo} delNode={this.delNode}></NodeWrap>
+              <NodeWrap nodeConfig={nodeConfig.childNode} addTremInfo={this.addTremInfo} delNode={this.delNode} getNodeConfig={this.props.getNodeConfig} updataNode={this.updataNode()}></NodeWrap>
               : ''
           }
         </div >

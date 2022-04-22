@@ -17,22 +17,15 @@ export default class index extends Component {
     nodeConfig: dataJson.data.nodeConfig,
     flowPermission: []
   }
-  addTremInfo = (e, id) => {
-    // console.log(this.state.nodeConfig)
-    // console.log(e)
-    // console.log(id)
-    // this.digui(e, id)
-    // const { nodeConfig } = this.state
-    // nodeConfig.childNode.childNode = e
-    // this.setState({ nodeConfig })
-    // this.forceUpdate()
-  }
   delNode = (e) => {
     console.log(e)
     const { nodeConfig } = this.state
     this.setState({
       nodeConfig: e
     })
+  }
+  getNodeConfig = (e) => {
+    console.log(e)
   }
   render() {
     const { nodeConfig } = this.state
@@ -46,12 +39,12 @@ export default class index extends Component {
         <div className="fd-nav-content">
           <section className="dingflow-design">
             <div className="box-scale" id="box-scale" style={{ transform: "scale('+nowVal/100+')", transformOrigin: "50% 0px 0px" }}>
-              <NodeWrap nodeConfig={nodeConfig} flowPermission={this.state.flowPermission} addTremInfo={this.addTremInfo} delNode={this.delNode}></NodeWrap>
+              <NodeWrap nodeConfig={nodeConfig} flowPermission={this.state.flowPermission} addTremInfo={this.addTremInfo} delNode={this.delNode} getNodeConfig={this.getNodeConfig}></NodeWrap>
               {/* <NodeWrap :nodeConfig.sync="nodeConfig" :flowPermission.sync="flowPermission"></NodeWrap> */}
             </div>
           </section >
         </div>
-        <RightBox />
+        {/* <RightBox /> */}
       </div>
     )
   }
