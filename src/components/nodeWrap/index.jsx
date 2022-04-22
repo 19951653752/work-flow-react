@@ -40,7 +40,6 @@ export default class NodeWrap extends Component {
       for (var i = 0; i < nodeConfig.conditionNodes.length; i++) {
         nodeConfig.conditionNodes[i].error = $func.conditionStr(nodeConfig, i) == "请设置条件" && i != nodeConfig.conditionNodes.length - 1
       }
-      // this.$emit("update:nodeConfig", this.nodeConfig)
       this.props.updataNode(nodeConfig)
       this.forceUpdate()
       if (nodeConfig.conditionNodes.length == 1) {
@@ -51,11 +50,7 @@ export default class NodeWrap extends Component {
             nodeConfig.conditionNodes[0].childNode = nodeConfig.childNode
           }
         }
-        // this.$emit("update:nodeConfig", this.nodeConfig.conditionNodes[0].childNode)
         this.props.updataNode(nodeConfig.conditionNodes[0].childNode)
-        // this.setState({
-        //   nodeConfig: nodeConfig.childNode
-        // })
       }
     }
   }
@@ -69,25 +64,20 @@ export default class NodeWrap extends Component {
   arrTransfer = () => {
 
   }
-  delNode = (index) => {
-    console.log(index)
+  delNode = () => {
     const { nodeConfig } = this.state
-    // this.setState({
-    //   nodeConfig: nodeConfig.childNode
-    // })
-    console.log(this.props)
-    console.log(nodeConfig)
     this.props.updataNode(nodeConfig.childNode)
   }
+  // 用于修改递归组件中，父组件的数据
   updataNode = (index) => {
     return (e) => {
       const { nodeConfig } = this.state
-      console.log(index)
-      console.log(e)
-      console.log(nodeConfig)
+      // 主流程节点
       if (index === undefined) {
         nodeConfig.childNode = e
-      } else {
+      }
+      // 分支流程添加节点
+      else {
         nodeConfig.conditionNodes[index].childNode = e
       }
       this.setState({
@@ -111,7 +101,9 @@ export default class NodeWrap extends Component {
     }
     this.props.addTremInfo(nodeConfig)
   }
-  addTremInfo = (nodeConfig) => {
+  addTremInfo = (e) => {
+    const { nodeConfig } = this.state
+    nodeConfig.childNode = e
     this.setState({
       nodeConfig
     })
@@ -119,8 +111,6 @@ export default class NodeWrap extends Component {
   // 给子组件传的事件
   addNodeInfo = (e, index) => {
     const { nodeConfig } = this.state
-    console.log(nodeConfig)
-    console.log(index)
     // 主流程添加节点
     if (index === undefined) {
       nodeConfig.childNode = e
@@ -185,12 +175,6 @@ export default class NodeWrap extends Component {
                           <i className="anticon anticon-close close" onClick={this.delNode}></i>
                           : ''
                       }
-
-
-
-
-
-
                     </div>
                     <div className="content" onClick={this.setPerson}>
                       {
@@ -234,7 +218,7 @@ export default class NodeWrap extends Component {
                     </div>
                   </div>
                 </div>
-                <AddNode childNodeP={nodeConfig.childNode} addNodeInfo={this.addNodeInfo} getNodeConfig={this.props.getNodeConfig} updataNode={this.updataNode()}></AddNode>
+                <AddNode childNodeP={nodeConfig.childNode} addNodeInfo={this.addNodeInfo}></AddNode>
               </div> : ''
           }
           {
@@ -243,10 +227,6 @@ export default class NodeWrap extends Component {
                 <div className="branch-box-wrap">
                   <div className="branch-box">
                     <button className="add-branch" onClick={this.addTerm}>添加条件</button>
-
-
-
-
                     {
                       nodeConfig.conditionNodes.map((item, index) => {
                         return <div className="col-box" key={index}>
@@ -288,7 +268,7 @@ export default class NodeWrap extends Component {
                                     : ''
                                 }
                               </div>
-                              <AddNode nodeConfig={item} index={index} childNodeP={item.childNode} addNodeInfo={this.addNodeInfo} getNodeConfig={this.props.getNodeConfig} updataNode={this.updataNode()}></AddNode>
+                              <AddNode index={index} childNodeP={item.childNode} addNodeInfo={this.addNodeInfo}></AddNode>
                             </div>
                           </div>
                           {
@@ -320,7 +300,7 @@ export default class NodeWrap extends Component {
                       })
                     }
                   </div>
-                  <AddNode childNodeP={nodeConfig.childNode} addNodeInfo={this.addNodeInfo} getNodeConfig={this.props.getNodeConfig} updataNode={this.updataNode()}></AddNode>
+                  <AddNode childNodeP={nodeConfig.childNode} addNodeInfo={this.addNodeInfo}></AddNode>
                 </div>
               </div> : ''
           }
