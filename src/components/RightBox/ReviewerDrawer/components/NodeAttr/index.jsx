@@ -15,6 +15,7 @@ export default class NodeAttr extends Component {
   resolveInputRef = React.createRef()
   rejectInputRef = React.createRef()
   state = {
+    nodeInfo: this.props.nodeInfo,
     form: {
       name: '',
       describe: '',
@@ -117,8 +118,26 @@ export default class NodeAttr extends Component {
   }
   submit = () => {
     console.log(this.state.form)
+    const { nodeInfo } = this.state
+    console.log(nodeInfo)
+    nodeInfo.nodeName = '张三'
+    this.setState({
+      nodeInfo
+    })
+    this.props.getNodeConfig(nodeInfo)
+  }
+  componentWillReceiveProps(nextProps) {
+    // if (nextProps.nodeInfo !== this.props.nodeInfo) {
+      this.setState({
+        nodeInfo: nextProps.nodeInfo
+      })
+    // }
   }
   render() {
+    console.log(this.props.nodeInfo)
+    // const { nodeInfo } = this.state
+    console.log(this.state.nodeInfo)
+    // nodeInfo.nodeName = '张三'
     const { TabPane } = Tabs;
     const { TextArea } = Input;
     return (

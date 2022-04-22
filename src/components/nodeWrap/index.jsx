@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import func from '../../plugins/preload'
+import func from '@/plugins/preload'
 
-import AddNode from '../addNode'
+import AddNode from '../AddNode'
 
-import { observer } from 'mobx-react';
-import ProductStore from '../../stores/product'
+import { observer } from 'mobx-react'
+import StateStore from '@/stores/state'
 
 
-// @observer
+@observer
 export default class NodeWrap extends Component {
   state = {
     nodeConfig: this.props.nodeConfig,
@@ -20,11 +20,6 @@ export default class NodeWrap extends Component {
     tempBoo: false
   }
   clickEvent = () => {
-    return () => {
-
-    }
-  }
-  setPerson = () => {
     return () => {
 
     }
@@ -99,14 +94,7 @@ export default class NodeWrap extends Component {
     for (let i = 0; i < nodeConfig.conditionNodes.length; i++) {
       nodeConfig.conditionNodes[i].err = $func.conditionStr(nodeConfig, i) == '请设置条件' && i != nodeConfig.conditionNodes.length - 1
     }
-    this.props.addTremInfo(nodeConfig)
-  }
-  addTremInfo = (e) => {
-    const { nodeConfig } = this.state
-    nodeConfig.childNode = e
-    this.setState({
-      nodeConfig
-    })
+    this.props.updataNode(nodeConfig)
   }
   // 给子组件传的事件
   addNodeInfo = (e, index) => {
@@ -121,24 +109,35 @@ export default class NodeWrap extends Component {
     }
     this.setState({ nodeConfig })
   }
-  nodeClick = (nodeConfig) => {
+  nodeClick = () => {
     return () => {
-      console.log(this.props)
+      const { nodeConfig } = this.state
+      // console.log(nodeConfig)
+      nodeConfig.nodeName = '李四'
+      this.setState({
+        nodeConfig
+      })
       this.props.getNodeConfig(nodeConfig)
-      console.log(nodeConfig)
     }
+  }
+  setPerson = () => {
+    const { nodeConfig } = this.state
+    console.log(nodeConfig.type)
+    StateStore.setPromoter(true)
   }
   componentWillReceiveProps(nextProps) {
     console.log(this.props.nodeConfig)
     console.log(nextProps.nodeConfig)
-    if (nextProps.nodeConfig !== this.props.nodeConfig) {
-      this.setState({
-        nodeConfig: nextProps.nodeConfig
-      })
-    }
+    this.setState({
+      nodeConfig: nextProps.nodeConfig
+    })
+    // if (nextProps.nodeConfig !== this.props.nodeConfig) {
+      
+    // }
   }
   render() {
-    console.log(this.state.nodeConfig)
+    console.log(1111)
+    // console.log(this.state.nodeConfig)
     const { isTried, isInput, $func, placeholderList, isInputList, nodeConfig } = this.state
     const { flowPermission } = this.props
     if (nodeConfig) {
@@ -232,7 +231,8 @@ export default class NodeWrap extends Component {
                         return <div className="col-box" key={index}>
                           <div className="condition-node">
                             <div className="condition-node-box">
-                              <div className={`auto-judge ${isTried && item.error ? 'error active' : ''}`}>
+                              <div onClick={this.setPerson} className={`auto-judge ${isTried && item.error ? 'error active' : ''}`}>
+                                <div className="auto-judge-content">
                                 {
                                   index != 0 ?
                                     <div className="sort-left" onClick={this.arrTransfer(index, -1)}>&lt;</div>
@@ -250,7 +250,7 @@ export default class NodeWrap extends Component {
                                       <span className="editable-title" onClick={this.clickEvent(index)}>{item.nodeName}</span>
                                       : ''
                                   }
-                                  <span className="priority-title" onClick={this.setPerson(item.priorityLevel)}>优先级{item.priorityLevel}</span>
+                                  <span className="priority-title">优先级{item.priorityLevel}</span>
                                   <i className="anticon anticon-close close" onClick={this.delTerm(index)}></i>
                                 </div>
                                 {
@@ -259,7 +259,7 @@ export default class NodeWrap extends Component {
                                       onClick={this.arrTransfer(index)}>&gt;</div>
                                     : ''
                                 }
-                                <div className="content" onClick={this.setPerson(item.priorityLevel)}>{$func.conditionStr(nodeConfig,index)}</div>
+                                <div className="content">{$func.conditionStr(nodeConfig,index)}</div>
                                 {
                                   isTried && item.error ?
                                     <div className="error_tip">
@@ -267,13 +267,14 @@ export default class NodeWrap extends Component {
                                     </div>
                                     : ''
                                 }
+                                </div>
                               </div>
                               <AddNode index={index} childNodeP={item.childNode} addNodeInfo={this.addNodeInfo}></AddNode>
                             </div>
                           </div>
                           {
                             item.childNode ?
-                              <NodeWrap nodeConfig={item.childNode} addTremInfo={this.addTremInfo} delNode={this.delNode} getNodeConfig={this.props.getNodeConfig} updataNode={this.updataNode(index)}></NodeWrap>
+                              <NodeWrap nodeConfig={item.childNode} delNode={this.delNode} updataNode={this.updataNode(index)} getNodeConfig={this.props.getNodeConfig}></NodeWrap>
                               : ''
                           }
                           {
@@ -306,7 +307,7 @@ export default class NodeWrap extends Component {
           }
           {
             nodeConfig.childNode ?
-              <NodeWrap nodeConfig={nodeConfig.childNode} addTremInfo={this.addTremInfo} delNode={this.delNode} getNodeConfig={this.props.getNodeConfig} updataNode={this.updataNode()}></NodeWrap>
+              <NodeWrap nodeConfig={nodeConfig.childNode} delNode={this.delNode} updataNode={this.updataNode()} getNodeConfig={this.props.getNodeConfig}></NodeWrap>
               : ''
           }
         </div >

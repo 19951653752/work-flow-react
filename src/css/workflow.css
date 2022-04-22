@@ -1048,7 +1048,7 @@ html {
 }
 
 .fd-nav-content {
-  /* width: calc(100vw - 500px); */
+  width: calc(100vw - 500px);
   position: fixed;
   top: 60px;
   left: 0;
@@ -1567,8 +1567,10 @@ html {
   min-height: 72px;
   background: #fff;
   border-radius: 4px;
-  padding: 14px 19px;
   cursor: pointer
+}
+.dingflow-design .auto-judge-content {
+  padding: 14px 19px;
 }
 
 .dingflow-design .auto-judge:after {
