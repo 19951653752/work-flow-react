@@ -1,53 +1,82 @@
-.conBox {
-  .conTool {
-    margin-bottom: 10px;
-    button {
-      background: none;
-      padding: 2px 7px;
-      cursor: pointer;
-    }
-    .conButton {
-      color: #1890ff;
-      border: 1px solid #1890ff;
-      + button {
-        margin-left: -1px;
+.drawerBox {
+  position: absolute;
+  top: 56px;
+  right: 0;
+  width: 500px;
+  height: 100%;
+  padding: 0 15px 15px;
+  :global {
+    .ant-tabs {
+      height: 100%;
+      .ant-tabs-content {
+        height: calc(100% - 56px);
+        overflow: auto;
       }
     }
-    span {
-      .addConButton {
-        color: #000;
-        border: 1px solid #aaa;
-        + button {
+  }
+
+  .conBox {
+    // padding: 15px;
+    .conTool {
+      margin-bottom: 10px;
+
+      button {
+        background: none;
+        padding: 2px 7px;
+        cursor: pointer;
+      }
+
+      .conButton {
+        color: #1890ff;
+        border: 1px solid #1890ff;
+
+        +button {
           margin-left: -1px;
         }
       }
+
+      span {
+        .addConButton {
+          color: #000;
+          border: 1px solid #aaa;
+
+          +button {
+            margin-left: -1px;
+          }
+        }
+      }
+
+      span :nth-child(2) {
+        margin-left: 10px;
+      }
     }
-    span :nth-child(2) {
-      margin-left: 10px;
+
+    .itemBox {
+      position: relative;
+      margin-left: 30px;
+
+      .item {
+        background: #F8F8FA;
+      }
     }
-  }
-  .itemBox {
-    position: relative;
-    margin-left: 30px;
-    .item {
-      background: #F8F8FA;
+
+    .itemBox::before {
+      position: absolute;
+      content: "";
+      top: -10px;
+      left: -30px;
+      width: 20px;
+      border-left: 1px solid #ccc;
+      bottom: 0;
     }
-  }
-  .itemBox::before {
-    position: absolute;
-    content: "";
-    top: -10px;
-    left: -30px;
-    width: 20px;
-    border-left: 1px solid #ccc;
-    bottom: 0;
-  }
-  .itemBox::after {
-    position: absolute;
-    content: "";
-    top: 50%;
-    width: 20px;
-    left: -30px;
-    border-top: 1px solid #ccc;
+
+    .itemBox::after {
+      position: absolute;
+      content: "";
+      top: 50%;
+      width: 20px;
+      left: -30px;
+      border-top: 1px solid #ccc;
+    }
   }
 }

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { Popover, Button } from 'antd'
 
 import styles from './index.less'
+import '@/icons/myfont/iconfont.css'
 
 import { observer } from 'mobx-react';
 import ProductStore from '../../stores/product'
@@ -97,24 +98,24 @@ export default class AddNode extends Component {
             <div className={styles.addNodePopoverBody}>
               <a className={`${styles.addNodePopoverItem} ${styles.approver}`} onClick={this.addType(1)}>
                 <div className={styles.itemWrapper}>
-                  <span className={styles.iconfont}></span>
+                  <span className={styles.iconfont}>&#xe713;</span>
                 </div>
-                <p>审批人</p>
+                <p>审核人</p>
               </a>
-              <a className={`${styles.addNodePopoverItem} ${styles.notifier}`} onClick={this.addType(2)}>
+              {/* <a className={`${styles.addNodePopoverItem} ${styles.notifier}`} onClick={this.addType(2)}>
                 <div className={styles.itemWrapper}>
                   <span className={styles.iconfont}></span>
                 </div>
                 <p>抄送人</p>
-              </a>
+              </a> */}
               <a className={`${styles.addNodePopoverItem} ${styles.condition}`} onClick={this.addType(4)}>
                 <div className={styles.itemWrapper}>
-                  <span className={styles.iconfont}></span>
+                  <span className={styles.iconfont}>&#xe98e;</span>
                 </div>
                 <p>条件分支</p>
               </a>
             </div >
-          } trigger="click" placement="rightTop">
+          } trigger="click" placement="right">
             <button onClick={this.addNode} className={styles.btn}>
               <span className={styles.iconfont}></span>
             </button>

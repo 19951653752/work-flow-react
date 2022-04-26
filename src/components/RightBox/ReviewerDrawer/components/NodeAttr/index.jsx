@@ -57,15 +57,10 @@ export default class NodeAttr extends Component {
       this.setState({ [type + 'CostomInputVisible']: false })
     }
   }
-  delOpinion = (type, item) => {
+  delOpinion = (type, item, index) => {
     return (e) => {
-      const result = this.state.form[type].filter(i => {
-        return item !== i
-      })
-      const form = {
-        ...this.state.form,
-        [type]: result
-      }
+      const { form } = this.state
+      form[type].splice(index, 1)
       this.setState({ form })
     }
   }
@@ -128,9 +123,9 @@ export default class NodeAttr extends Component {
   }
   componentWillReceiveProps(nextProps) {
     // if (nextProps.nodeInfo !== this.props.nodeInfo) {
-      this.setState({
-        nodeInfo: nextProps.nodeInfo
-      })
+    this.setState({
+      nodeInfo: nextProps.nodeInfo
+    })
     // }
   }
   render() {
@@ -213,8 +208,8 @@ export default class NodeAttr extends Component {
             <div className={styles.resolve}>
               <span className={styles.label}>通过意见</span>
               {
-                this.state.form.resolve.map(item => {
-                  return <span className={`${styles.custonButton} ${styles.successButton}`}>{item}<i className={styles.delete}><MinusOutlined onClick={this.delOpinion('resolve', item)} /></i></span>
+                this.state.form.resolve.map((item, index) => {
+                  return <span className={`${styles.custonButton} ${styles.successButton}`}>{item}<i className={styles.delete}><MinusOutlined onClick={this.delOpinion('resolve', item, index)} /></i></span>
                 })
               }
 
@@ -224,8 +219,8 @@ export default class NodeAttr extends Component {
             <div className={styles.reject}>
               <span className={styles.label}>驳回意见</span>
               {
-                this.state.form.reject.map(item => {
-                  return <span className={`${styles.custonButton} ${styles.errorButton}`}>{item}<i className={styles.delete}><MinusOutlined onClick={this.delOpinion('reject', item)} /></i></span>
+                this.state.form.reject.map((item, index) => {
+                  return <span className={`${styles.custonButton} ${styles.errorButton}`}>{item}<i className={styles.delete}><MinusOutlined onClick={this.delOpinion('reject', item, index)} /></i></span>
                 })
               }
 
@@ -239,8 +234,36 @@ export default class NodeAttr extends Component {
             <div className={styles.title}>审批方式</div>
             <div className={styles.radioBox}>
               <Radio.Group onChange={this.formChange('checkType')} value={this.state.form.checkType}>
+                <div className={styles.radioTip}>
                 <Radio style={{ fontWeight: '600' }} value={1}>会签</Radio>
+                  <Tooltip
+                    placement="rightTop"
+                    title="需所有审批人同意"
+                    color="#B1B1B1"
+                  >
+                    <span
+                      className={`iconfont`}
+                      style={{ color: '#BDBDBD', cursor: 'pointer', marginLeft: '-6px' }}
+                    >
+                      &#xe63c;
+                    </span>
+                  </Tooltip>
+                </div>
+                <div className={styles.radioTip} style={{ marginLeft: '30px' }}>
                 <Radio style={{ fontWeight: '600' }} value={2}>或签</Radio>
+                  <Tooltip
+                    placement="rightTop"
+                    title="一名审批人同意或拒绝即可"
+                    color="#B1B1B1"
+                  >
+                    <span
+                      className={`iconfont`}
+                      style={{ color: '#BDBDBD', cursor: 'pointer',  marginLeft: '-6px' }}
+                    >
+                      &#xe63c;
+                    </span>
+                  </Tooltip>
+                </div>
               </Radio.Group>
             </div>
           </div>

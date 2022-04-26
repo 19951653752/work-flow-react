@@ -6,7 +6,7 @@ import NodeAttr from './components/NodeAttr/index.jsx'
 import FormPower from './components/FormPower/index.jsx'
 
 import { observer } from 'mobx-react'
-import stateStore from '@/stores/state'
+import StateStore from '@/stores/state'
 
 import styles from './index.less'
 
@@ -45,26 +45,34 @@ export default class RightBox extends Component {
     this.setState({
       nodeInfo
     })
-    console.log(nodeInfo)
     this.props.getNodeConfig(nodeInfo)
+    StateStore.setReviewer(false)
+    StateStore.setDefault(true)
   }
   render() {
     // console.log(this.props.nodeInfo)
-    console.log(stateStore.promoterDrawer)
+    // console.log(stateStore.promoterDrawer)
     const { nodeInfo } = this.props
-    console.log(nodeInfo)
+    // console.log(nodeInfo)
     const { TabPane } = Tabs;
+    const drawerVisible = StateStore.reviewerDrawer
     return (
-      <div className={styles.rightBox}>
-        <button onClick={this.onClick}>按钮</button>
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="节点设置属性" key="1">
-            <NodeAttr nodeInfo={nodeInfo} getNodeConfig={this.props.getNodeConfig} />
-          </TabPane>
-          <TabPane tab="节点设置属性" key="2">
-            <FormPower nodeInfo={nodeInfo} />
-          </TabPane>
-        </Tabs>
+      <div>
+        {
+          drawerVisible ? 
+          <div className={styles.drawerBox}>
+          {/* <button onClick={this.onClick}>按钮</button> */}
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="节点设置属性" key="1">
+              <NodeAttr nodeInfo={nodeInfo} getNodeConfig={this.props.getNodeConfig} />
+            </TabPane>
+            <TabPane tab="节点设置属性" key="2">
+              <FormPower nodeInfo={nodeInfo} />
+            </TabPane>
+          </Tabs>
+        </div>
+        : ''
+        }
       </div>
     )
   }

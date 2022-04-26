@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import func from '@/plugins/preload'
 
 import AddNode from '../AddNode'
+import '@/icons/myfont/iconfont.css'
 
 import { observer } from 'mobx-react'
 import StateStore from '@/stores/state'
@@ -123,11 +124,23 @@ export default class NodeWrap extends Component {
   setPerson = () => {
     const { nodeConfig } = this.state
     console.log(nodeConfig.type)
-    StateStore.setPromoter(true)
+    StateStore.setDefault(false)
+    StateStore.setReviewer(false)
+    StateStore.setCondition(false)
+    switch(nodeConfig.type + '') {
+      case '1':
+        StateStore.setReviewer(true)
+        break
+      case '4':
+        StateStore.setCondition(true)
+        break
+      default:
+        StateStore.setDefault(true)
+    }
   }
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.nodeConfig)
-    console.log(nextProps.nodeConfig)
+    // console.log(this.props.nodeConfig)
+    // console.log(nextProps.nodeConfig)
     this.setState({
       nodeConfig: nextProps.nodeConfig
     })
@@ -136,7 +149,7 @@ export default class NodeWrap extends Component {
     // }
   }
   render() {
-    console.log(1111)
+    // console.log(1111)
     // console.log(this.state.nodeConfig)
     const { isTried, isInput, $func, placeholderList, isInputList, nodeConfig } = this.state
     const { flowPermission } = this.props
@@ -146,12 +159,22 @@ export default class NodeWrap extends Component {
           {
             nodeConfig.type !== 4 ?
               <div className="node-wrap">
-                <div onClick={this.nodeClick(nodeConfig)} className={`node-wrap-box ${nodeConfig.type == 0 ? 'start-node' : '' + isTried && nodeConfig.error ? 'active error' : ''} `}>
+                {
+                  nodeConfig.type === 0 ? 
+                  <div className="cus-node">
+                    <div className="img-box">
+                    <img src={require("@/imgs/start.png")}></img>
+                    </div>
+                    <div className="cus-node-text-start">开始流程</div>
+                  </div>
+                  : 
+                  <div onClick={this.nodeClick(nodeConfig)} className={`node-wrap-box ${nodeConfig.type == 0 ? 'start-node' : '' + isTried && nodeConfig.error ? 'active error' : ''} `}>
                   <div>
-                    <div className="title" style={{ background: 'rgb(' + ['87, 106, 149', '255, 148, 62', '50, 150, 250'][nodeConfig.type] + ')' }}>
+                    <div className="title">
+                    {/* <div className="title" style={{ background: 'rgb(' + ['87, 106, 149', '255, 148, 62', '50, 150, 250'][nodeConfig.type] + ')' }}> */}
                       {
                         nodeConfig.type == 1 ?
-                          <span className="iconfont"></span>
+                          <span className="iconfont"></span>
                           : ''
                       }
                       {
@@ -171,7 +194,7 @@ export default class NodeWrap extends Component {
                       }
                       {
                         nodeConfig.type != 0 ?
-                          <i className="anticon anticon-close close" onClick={this.delNode}></i>
+                          <i className="anticon anticon-close-icon close" onClick={this.delNode}></i>
                           : ''
                       }
                     </div>
@@ -205,7 +228,7 @@ export default class NodeWrap extends Component {
                           </div>
                           : ''
                       }
-                      <i className="anticon anticon-right arrow"></i>
+                      {/* <i className="anticon anticon-right arrow"></i> */}
                     </div>
                     <div>
                       {
@@ -217,6 +240,7 @@ export default class NodeWrap extends Component {
                     </div>
                   </div>
                 </div>
+                }
                 <AddNode childNodeP={nodeConfig.childNode} addNodeInfo={this.addNodeInfo}></AddNode>
               </div> : ''
           }
@@ -233,11 +257,11 @@ export default class NodeWrap extends Component {
                             <div className="condition-node-box">
                               <div onClick={this.setPerson} className={`auto-judge ${isTried && item.error ? 'error active' : ''}`}>
                                 <div className="auto-judge-content">
-                                {
+                                {/* {
                                   index != 0 ?
                                     <div className="sort-left" onClick={this.arrTransfer(index, -1)}>&lt;</div>
                                     : ''
-                                }
+                                } */}
                                 <div className="title-wrapper">
                                   {
                                     isInputList[index] ?
@@ -250,20 +274,20 @@ export default class NodeWrap extends Component {
                                       <span className="editable-title" onClick={this.clickEvent(index)}>{item.nodeName}</span>
                                       : ''
                                   }
-                                  <span className="priority-title">优先级{item.priorityLevel}</span>
-                                  <i className="anticon anticon-close close" onClick={this.delTerm(index)}></i>
+                                  {/* <span className="priority-title">优先级{item.priorityLevel}</span> */}
+                                  <i className="anticon anticon-close-icon close" onClick={this.delTerm(index)}></i>
                                 </div>
-                                {
+                                {/* {
                                   index != nodeConfig.conditionNodes.length - 1 ?
                                     <div className="sort-right"
                                       onClick={this.arrTransfer(index)}>&gt;</div>
                                     : ''
-                                }
+                                } */}
                                 <div className="content">{$func.conditionStr(nodeConfig,index)}</div>
                                 {
                                   isTried && item.error ?
                                     <div className="error_tip">
-                                      <i className="anticon anticon-exclamation-circle" style={{ color: rgb(242, 86, 67) }}></i>
+                                      {/* <i className="anticon anticon-exclamation-circle" style={{ color: rgb(242, 86, 67) }}></i> */}
                                     </div>
                                     : ''
                                 }

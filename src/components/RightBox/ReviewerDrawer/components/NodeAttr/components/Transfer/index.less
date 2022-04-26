@@ -4,17 +4,83 @@
   background: #fff;
   // border: 2px solid pink;
   position: absolute;
-  top: 0;
+  top: -55px;
   right: 0;
-  width: 500px;
-  height: 100%;
+  padding-top: 55px;
+  width: 700px;
+  height: calc(100% + 55px);
+
   .header {
     font-weight: 600;
     padding: 16px 24px;
     border-bottom: 1px solid #f0f0f0;
+
     .title {
       font-size: 16px;
       line-height: 22px;
+    }
+  }
+
+  .content {
+    display: flex;
+    padding: 15px;
+
+    .leftBox {
+      flex: 1;
+      border: 1px solid #ccc;
+
+      .leftTitle {
+        padding: 8px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .leftContent {
+        .leftInput {
+          padding: 10px 10px 0;
+        }
+
+        .leftTree {
+          padding: 10px 10px 0;
+        }
+      }
+    }
+
+    .rightBox {
+      flex: 1;
+      margin-left: 20px;
+      border: 1px solid #ccc;
+
+      .rightTitle {
+        padding: 8px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .rightContent {
+        .rightTree {
+          padding: 10px 10px 0;
+
+          .item {
+            padding: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  .buttonGroup {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+
+    :global {
+      .ant-btn {
+        width: 84px;
+
+        +.ant-btn {
+          margin-left: 20px;
+        }
+      }
     }
   }
 }

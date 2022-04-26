@@ -8,6 +8,7 @@
     -webkit-box-flex: 1;
     -ms-flex-positive: 1;
     position: relative;
+
     &:before {
         content: "";
         position: absolute;
@@ -21,6 +22,7 @@
         height: 100%;
         background-color: #cacaca
     }
+
     .addNodeBtn {
         user-select: none;
         width: 240px;
@@ -31,6 +33,7 @@
         flex-shrink: 0;
         -webkit-box-flex: 1;
         flex-grow: 1;
+
         .btn {
             outline: none;
             box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
@@ -43,14 +46,17 @@
             line-height: 30px;
             -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
             transition: all .3s cubic-bezier(.645, .045, .355, 1);
+
             .iconfont {
                 color: #fff;
                 font-size: 16px
             }
+
             &:hover {
                 transform: scale(1.3);
                 box-shadow: 0 13px 27px 0 rgba(0, 0, 0, .1)
             }
+
             &:active {
                 transform: none;
                 background: #1e83e9;
@@ -59,61 +65,95 @@
         }
     }
 }
+
 .addNodePopoverBody {
     display: flex;
+
     .addNodePopoverItem {
+        width: 65px;
         margin-right: 10px;
         cursor: pointer;
         text-align: center;
         flex: 1;
-        color: #191f25!important;
+        color: #191f25 !important;
+
         .itemWrapper {
             user-select: none;
             display: inline-block;
-            width: 80px;
-            height: 80px;
+            width: 45px;
+            height: 45px;
             margin-bottom: 5px;
             background: #fff;
-            border: 1px solid #e2e2e2;
             border-radius: 50%;
             transition: all .3s cubic-bezier(.645, .045, .355, 1);
+
             .iconfont {
-                font-size: 35px;
-                line-height: 80px
+                font-size: 26px;
+                line-height: 45px
             }
         }
-        &.approver{
+
+        &.approver {
             .itemWrapper {
-                color: #ff943e
+                color: #1890ff;
+                border: 1px solid #1890ff;
             }
         }
-        &.notifier{
+
+        &.notifier {
             .itemWrapper {
-                color: #3296fa
+                color: #1890ff;
+                border: 1px solid #1890ff;
             }
         }
-        &.condition{
+
+        &.condition {
             .itemWrapper {
-                color: #15bc83
+                color: #FD8837;
+                border: 1px solid #FD8837;
             }
         }
-        &:hover{
-            .itemWrapper {
-                background: #3296fa;
-                box-shadow: 0 10px 20px 0 rgba(50, 150, 250, .4)
+
+        &:hover {
+            &.approver {
+                .itemWrapper {
+                    background: #1890ff;
+                    border: 1px solid #1890ff;
+                    // box-shadow: 0 10px 20px 0 rgba(50, 150, 250, .4)
+                }
             }
+
+            &.condition {
+                .itemWrapper {
+                    background: #FD8837;
+                    border: 1px solid #FD8837;
+                    // box-shadow: 0 10px 20px 0 rgba(50, 150, 250, .4)
+                }
+            }
+
+            // .itemWrapper {
+            //     background: #FD8837;
+            //     border: 1px solid #FD8837;
+            //     box-shadow: 0 10px 20px 0 rgba(50, 150, 250, .4)
+            // }
             .iconfont {
                 color: #fff
             }
         }
-        &:active{
-            .itemWrapper {
-                box-shadow: none;
-                background: #eaeaea
-            }
-            .iconfont {
-                color: inherit
-            }
-        }
+
+        // &:active {
+        //     .itemWrapper {
+        //         box-shadow: none;
+        //         background: #eaeaea
+        //     }
+
+        //     .iconfont {
+        //         color: inherit
+        //     }
+        // }
     }
+}
+
+.iconfont {
+    font-family: 'iconfont';
 }
