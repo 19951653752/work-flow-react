@@ -66,7 +66,7 @@ export default class RightBox extends Component {
             <TabPane tab="节点设置属性" key="1">
               <NodeAttr nodeInfo={nodeInfo} getNodeConfig={this.props.getNodeConfig} />
             </TabPane>
-            <TabPane tab="节点设置属性" key="2">
+            <TabPane tab="表单权限设置" key="2">
               <FormPower nodeInfo={nodeInfo} />
             </TabPane>
           </Tabs>

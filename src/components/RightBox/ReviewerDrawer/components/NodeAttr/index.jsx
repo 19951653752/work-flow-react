@@ -181,7 +181,7 @@ export default class NodeAttr extends Component {
               {
                 this.state.form.checkedList.map(item => {
                   return item === '清空' ? <span className={styles.clearBtn} size="small"><span>&#xe70f;</span>{item}</span> :
-                    <span className={styles.listBtn} size="small">{item} <span>&#xe6f3;</span></span>
+                    <span className={styles.listBtn} size="small">{item} <span className={styles.iconBtn}>&#xe6f3;</span></span>
                 })
               }
             </div>

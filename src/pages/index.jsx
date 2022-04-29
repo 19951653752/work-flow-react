@@ -13,8 +13,8 @@ import ConditionDrawer from '@/components/RightBox/ConditionDrawer'
 
 import dataJson from '../data.js'
 
-import { observer } from 'mobx-react';
-import ProductStore from '../stores/product'
+import { observer } from 'mobx-react'
+import StateStore from '@/stores/state'
 
 @observer
 export default class index extends Component {
@@ -64,13 +64,24 @@ export default class index extends Component {
       }
     }
   }
+  switchNode(type) {
+    console.log(123)
+    StateStore.setDefault(false)
+    StateStore.setReviewer(false)
+    StateStore.setCondition(false)
+    switch(type + '') {
+      case '1':
+        StateStore.setReviewer(true)
+        break
+      case '4':
+        StateStore.setCondition(true)
+        break
+      default:
+        StateStore.setDefault(true)
+    }
+  }
   render() {
     const { nodeConfig, nodeInfo, nowVal } = this.state
-    // console.log(nodeConfig)
-    // console.log(ProductStore.productId)
-    // ProductStore.setProduct(this.state.nodeConfig)
-    // console.log(ProductStore.productId)
-    // const nodeConfig = ProductStore.productId
     return (
       <Modal bodyStyle={{ padding: '0' }} title="Basic Modal" visible={true} footer={null} width="90%">
         <div className='fd-nav-box'>
@@ -83,7 +94,7 @@ export default class index extends Component {
                 <div className={`zoom-in ${nowVal == 300 ? ' disabled' : ''}`} onClick={this.zoomSize(2)}>&#xe65b;</div>
               </div>
               <div className="box-scale" id="box-scale" style={{ transform: 'scale(' + nowVal / 100 + ')', transformOrigin: "50% 0px 0px" }}>
-                <NodeWrap nodeConfig={nodeConfig} flowPermission={this.state.flowPermission} getNodeConfig={this.getNodeConfig}></NodeWrap>
+                <NodeWrap nodeConfig={nodeConfig} flowPermission={this.state.flowPermission} getNodeConfig={this.getNodeConfig} switchNode={this.switchNode}></NodeWrap>
                 <div className="end-node">
                   <div className="end-node-circle"></div>
                   <div className="end-node-text">
@@ -109,6 +120,9 @@ export default class index extends Component {
           <ConditionDrawer nodeInfo={nodeInfo} getNodeConfig={this.getNodeConfig} />
         </div>
         <button onClick={this.onClick}>按钮</button>
+        {/* <Modal title="提醒" visible={true} className={styles.stepModal}>
+          <div>离开前需要先保存，否则会数据丢失。确定离开吗？</div>
+        </Modal> */}
       </Modal>
     )
   }

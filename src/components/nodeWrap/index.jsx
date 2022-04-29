@@ -123,20 +123,7 @@ export default class NodeWrap extends Component {
   }
   setPerson = () => {
     const { nodeConfig } = this.state
-    console.log(nodeConfig.type)
-    StateStore.setDefault(false)
-    StateStore.setReviewer(false)
-    StateStore.setCondition(false)
-    switch(nodeConfig.type + '') {
-      case '1':
-        StateStore.setReviewer(true)
-        break
-      case '4':
-        StateStore.setCondition(true)
-        break
-      default:
-        StateStore.setDefault(true)
-    }
+    this.props.switchNode(nodeConfig.type)
   }
   componentWillReceiveProps(nextProps) {
     // console.log(this.props.nodeConfig)
@@ -298,7 +285,7 @@ export default class NodeWrap extends Component {
                           </div>
                           {
                             item.childNode ?
-                              <NodeWrap nodeConfig={item.childNode} delNode={this.delNode} updataNode={this.updataNode(index)} getNodeConfig={this.props.getNodeConfig}></NodeWrap>
+                              <NodeWrap nodeConfig={item.childNode} delNode={this.delNode} updataNode={this.updataNode(index)} getNodeConfig={this.props.getNodeConfig} switchNode={this.props.switchNode}></NodeWrap>
                               : ''
                           }
                           {
@@ -331,7 +318,7 @@ export default class NodeWrap extends Component {
           }
           {
             nodeConfig.childNode ?
-              <NodeWrap nodeConfig={nodeConfig.childNode} delNode={this.delNode} updataNode={this.updataNode()} getNodeConfig={this.props.getNodeConfig}></NodeWrap>
+              <NodeWrap nodeConfig={nodeConfig.childNode} delNode={this.delNode} updataNode={this.updataNode()} getNodeConfig={this.props.getNodeConfig} switchNode={this.props.switchNode}></NodeWrap>
               : ''
           }
         </div >

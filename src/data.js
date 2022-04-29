@@ -47,14 +47,14 @@ export default {
                   "ccSelfSelectFlag": 1,
                   "conditionList": [],
                   "nodeUserList": [],
-                  "childNode": {
-                      "nodeName": "抄送人",
-                      "type": 2,
-                      "ccSelfSelectFlag": 1,
-                      "childNode": null,
-                      "nodeUserList": [],
-                      "error": false
-                  },
+                //   "childNode": {
+                //       "nodeName": "抄送人",
+                //       "type": 2,
+                //       "ccSelfSelectFlag": 1,
+                //       "childNode": null,
+                //       "nodeUserList": [],
+                //       "error": false
+                //   },
                   "conditionNodes": [{
                       "nodeName": "条件1",
                       "type": 3,
